@@ -29,7 +29,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 images = [(GRASS, (0, 0)), (TRACK, (0, 0)), (FINISH, FINISH_POSITION), (TRACK_BORDER, (0, 0))]
 
-# AI data
+# AI path
 PATH = [(175, 119), (110, 70), (56, 133), (70, 481), (318, 731), (404, 680), (418, 521), (507, 475), (600, 551),
         (613, 715), (736, 713),
         (734, 399), (611, 357), (409, 343), (433, 257), (697, 258), (738, 123), (581, 71), (303, 78), (275, 377),
@@ -100,7 +100,7 @@ class AbstractCar:
 
     def move_backward(self):
         # speed decrease from vel to 0 and increase from 0 to max_vel / 2 (backward) with acceleration
-        self.vel = min(self.vel - self.acceleration, -self.max_vel / 2)
+        self.vel = max(self.vel - self.acceleration, -self.max_vel / 2)
         self.move()
 
     def move(self):
@@ -184,7 +184,7 @@ class ComputerCar(AbstractCar):
         # normalize
         if difference_in_angle >= 180:
             difference_in_angle -= 360
-            
+
         # move as AI
         if difference_in_angle > 0:
             self.angle -= min(self.rotation_vel, abs(difference_in_angle))
