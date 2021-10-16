@@ -29,7 +29,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 images = [(GRASS, (0, 0)), (TRACK, (0, 0)), (FINISH, FINISH_POSITION), (TRACK_BORDER, (0, 0))]
 
-# AI path
+# AI paths
 PATH = [(175, 119), (110, 70), (56, 133), (70, 481), (318, 731), (404, 680), (418, 521), (507, 475), (600, 551),
         (613, 715), (736, 713),
         (734, 399), (611, 357), (409, 343), (433, 257), (697, 258), (738, 123), (581, 71), (303, 78), (275, 377),
@@ -181,7 +181,7 @@ class ComputerCar(AbstractCar):
 
         # get diff in angle
         difference_in_angle = self.angle - math.degrees(desired_radian_angle)
-        # normalize
+        # optimize
         if difference_in_angle >= 180:
             difference_in_angle -= 360
 
@@ -192,10 +192,12 @@ class ComputerCar(AbstractCar):
             self.angle += min(self.rotation_vel, abs(difference_in_angle))
 
     def update_path_point(self):
+        # path
         target = self.path[self.current_point]
+        # create a rectangle around the car to get its position
         rect = pygame.Rect(self.x, self.y, self.img.get_width(), self.img.get_height())
+        # when the rect collide with target, go to the next target
         if rect.collidepoint(*target):
-            # next path
             self.current_point += 1
 
     def move(self):
@@ -328,6 +330,10 @@ while run:
         if event.type == pygame.QUIT:
             run = False
             break
+        # # find all paths
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     pos = pygame.mouse.get_pos()
+        #     computer_car.path.append(pos)
 
     # move
     move_player(player_car)
@@ -345,6 +351,9 @@ while run:
         game_info.reset()
         player_car.reset()
         computer_car.reset()
+
+# # find all paths
+# print(computer_car.path)
 
 # exit game
 pygame.quit()
