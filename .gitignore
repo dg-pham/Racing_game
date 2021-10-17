@@ -93,3 +93,6 @@ modules.xml
 
 # Sonarlint plugin
 .idea/sonarlint
+
+# sources
+imgs
